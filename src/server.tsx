@@ -1,8 +1,9 @@
 import React from "react";
 import express from "express";
 import { renderToString } from "react-dom/server";
-import App, { getInitialProps } from "./src/index";
+import { Page } from "./pages/index";
 import { resolve } from "path";
+
 
 const server = express();
 
@@ -13,8 +14,9 @@ server.use(
 )
 
 server.get('/',  async (req, res) => {
-  const props = await getInitialProps()
-  const app = renderToString(<App {...props} />)
+  const app = renderToString(<Page />)
+
+
 
   const tmplt = `
       <!DOCTYPE html>
@@ -25,9 +27,6 @@ server.get('/',  async (req, res) => {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>Document</title>
       </head>
-      <script>
-      console.log('critical scripts')
-      </script>
       <body>
       <div id="app">${app}</div>
       </body>

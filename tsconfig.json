@@ -2,11 +2,10 @@
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
-    "module": "ESNext",
+    "module": "ES6",
     "target": "es5",
     "allowJs": true,
-    "jsx": "react",
+    "jsx": "react"
   },
-  "include": ["src"],
-  "files": ["src/index.tsx"]
+  "include": ["./src"],
 }

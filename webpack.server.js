@@ -1,20 +1,18 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require('path');
 const isProduction = process.env.NODE_ENV == 'production';
 
 
+/**
+ * @type {import('webpack').Configuration}
+ */
 const config = {
-    entry: './app.tsx',
+    entry: './src/server.tsx',
     target: 'node',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: "[name].js",
         library: 'library',
-    },
-    devServer: {
-        open: true,
-        host: 'localhost',
+        publicPath: 'auto',
     },
     module: {
         rules: [
@@ -30,6 +28,7 @@ const config = {
             },
         ],
     },
+
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
@@ -41,5 +40,7 @@ module.exports = () => {
     } else {
         config.mode = 'development';
     }
+    config.mode = 'production';
+
     return config;
 };

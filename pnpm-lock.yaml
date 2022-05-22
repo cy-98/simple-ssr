@@ -2,6 +2,7 @@ lockfileVersion: 5.3
 
 specifiers:
   '@babel/core': ^7.16.12
+  '@babel/polyfill': ^7.12.1
   '@babel/preset-env': ^7.16.11
   '@babel/preset-react': ^7.16.7
   '@babel/preset-typescript': ^7.16.7
@@ -10,7 +11,9 @@ specifiers:
   '@types/webpack': ^5.28.0
   '@webpack-cli/generators': ^2.4.2
   babel-loader: ^8.2.3
+  clean-webpack-plugin: ^4.0.0
   express: ^4.17.2
+  glob: ^7.2.0
   html-webpack-plugin: ^5.5.0
   koa: ^2.13.4
   nodemon: ^2.0.15
@@ -18,11 +21,13 @@ specifiers:
   react-dom: ^17.0.2
   ts-loader: ^9.2.6
   typescript: ^4.5.5
-  webpack: ^5.67.0
+  webpack: ^5.12.0
   webpack-cli: ^4.9.2
   webpack-dev-server: ^4.7.3
+  webpack-node-externals: ^3.0.0
 
 dependencies:
+  '@babel/polyfill': 7.12.1
   express: 4.17.2
   koa: 2.13.4
   react-dom: 17.0.2_react@17.0.2
@@ -37,6 +42,8 @@ devDependencies:
   '@types/webpack': 5.28.0_webpack-cli@4.9.2
   '@webpack-cli/generators': 2.4.2_4df292f2573ba77e77217391b9684f0a
   babel-loader: 8.2.3_e748cba1f5e972defd8ae51292b4033f
+  clean-webpack-plugin: 4.0.0_webpack@5.67.0
+  glob: 7.2.0
   html-webpack-plugin: 5.5.0_webpack@5.67.0
   nodemon: 2.0.15
   react: 17.0.2
@@ -45,6 +52,7 @@ devDependencies:
   webpack: 5.67.0_webpack-cli@4.9.2
   webpack-cli: 4.9.2_bbf3f3965658f11b179bf6f6df016a78
   webpack-dev-server: 4.7.3_webpack-cli@4.9.2+webpack@5.67.0
+  webpack-node-externals: 3.0.0
 
 packages:
 
@@ -1111,6 +1119,14 @@ packages:
       '@babel/helper-create-regexp-features-plugin': 7.16.7_@babel+core@7.16.12
       '@babel/helper-plugin-utils': 7.16.7
     dev: true
+
+  /@babel/polyfill/7.12.1:
+    resolution: {integrity: sha512-X0pi0V6gxLi6lFZpGmeNa4zxtwEmCs42isWLNjZZDE0Y8yVfgu0T2OAHlzBbdYlqbW/YXVvoBHpATEM+goCj8g==}
+    deprecated: 🚨 This package has been deprecated in favor of separate inclusion of a polyfill and regenerator-runtime (when needed). See the @babel/polyfill docs (https://babeljs.io/docs/en/babel-polyfill) for more information.
+    dependencies:
+      core-js: 2.6.12
+      regenerator-runtime: 0.13.9
+    dev: false
 
   /@babel/preset-env/7.16.11_@babel+core@7.16.12:
     resolution: {integrity: sha512-qcmWG8R7ZW6WBRPZK//y+E3Cli151B20W1Rv7ln27vuPaXU/8TKms6jFdiJtF7UDTxcrb7mZd88tAeK9LjdT8g==}
@@ -2228,6 +2244,16 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /clean-webpack-plugin/4.0.0_webpack@5.67.0:
+    resolution: {integrity: sha512-WuWE1nyTNAyW5T7oNyys2EN0cfP2fdRxhxnIQWiAp0bMabPdHhoGxM8A6YL2GhqwgrPnnaemVE7nv5XJ2Fhh2w==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      webpack: '>=4.0.0 <6.0.0'
+    dependencies:
+      del: 4.1.1
+      webpack: 5.67.0_webpack-cli@4.9.2
+    dev: true
+
   /cli-boxes/2.2.1:
     resolution: {integrity: sha512-y4coMcylgSCdVinjiDBuR8PCC2bLjyGTwEmPb9NHR/QaNU6EUOXcTY/s6VjGMD6ENSEaeQYHCY0GNGS5jfMwPw==}
     engines: {node: '>=6'}
@@ -2438,6 +2464,12 @@ packages:
       semver: 7.0.0
     dev: true
 
+  /core-js/2.6.12:
+    resolution: {integrity: sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==}
+    deprecated: core-js@<3.4 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
+    requiresBuild: true
+    dev: false
+
   /core-util-is/1.0.3:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: true
@@ -2599,6 +2631,19 @@ packages:
     dependencies:
       is-descriptor: 1.0.2
       isobject: 3.0.1
+    dev: true
+
+  /del/4.1.1:
+    resolution: {integrity: sha512-QwGuEUouP2kVwQenAsOof5Fv8K9t3D8Ca8NxcXKrIpEHjTXK5J2nXLdP+ALI1cgv8wj7KuwBhTwBkOZSJKM5XQ==}
+    engines: {node: '>=6'}
+    dependencies:
+      '@types/glob': 7.2.0
+      globby: 6.1.0
+      is-path-cwd: 2.2.0
+      is-path-in-cwd: 2.1.0
+      p-map: 2.1.0
+      pify: 4.0.1
+      rimraf: 2.7.1
     dev: true
 
   /del/6.0.0:
@@ -3293,6 +3338,17 @@ packages:
       slash: 3.0.0
     dev: true
 
+  /globby/6.1.0:
+    resolution: {integrity: sha1-9abXDoOV4hyFj7BInWTfAkJNUGw=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      array-union: 1.0.2
+      glob: 7.2.0
+      object-assign: 4.1.1
+      pify: 2.3.0
+      pinkie-promise: 2.0.1
+    dev: true
+
   /globby/8.0.2:
     resolution: {integrity: sha512-yTzMmKygLp8RUpG1Ymu2VXPSJQZjNAZPD4ywgYEaG7e4tBJeUQBO8OpXrf1RCNcEs5alsoJYPAMiIHP0cmeC7w==}
     engines: {node: '>=4'}
@@ -3854,6 +3910,20 @@ packages:
   /is-path-cwd/2.2.0:
     resolution: {integrity: sha512-w942bTcih8fdJPJmQHFzkS76NEP8Kzzvmw92cXsazb8intwLqPibPPdXf4ANdKV3rYMuuQYGIWtvz9JilB3NFQ==}
     engines: {node: '>=6'}
+    dev: true
+
+  /is-path-in-cwd/2.1.0:
+    resolution: {integrity: sha512-rNocXHgipO+rvnP6dk3zI20RpOtrAM/kzbB258Uw5BWr3TpXi861yzjo16Dn4hUox07iw5AyeMLHWsujkjzvRQ==}
+    engines: {node: '>=6'}
+    dependencies:
+      is-path-inside: 2.1.0
+    dev: true
+
+  /is-path-inside/2.1.0:
+    resolution: {integrity: sha512-wiyhTzfDWsvwAW53OBWF5zuvaOGlZ6PwYxAbPVDhpm+gM09xKQGjBq/8uYN12aDvMxnAnq3dxTyoSoRNmg5YFg==}
+    engines: {node: '>=6'}
+    dependencies:
+      path-is-inside: 1.0.2
     dev: true
 
   /is-path-inside/3.0.3:
@@ -4685,6 +4755,11 @@ packages:
       p-limit: 2.3.0
     dev: true
 
+  /p-map/2.1.0:
+    resolution: {integrity: sha512-y3b8Kpd8OAN444hxfBbFfj1FY/RjtTd8tzYwhUqNYXx0fXx2iX4maP4Qr6qhIKbQXI02wTLAda4fYUbDagTUFw==}
+    engines: {node: '>=6'}
+    dev: true
+
   /p-map/4.0.0:
     resolution: {integrity: sha512-/bjOqmgETBYB5BoEeGVea8dmvHb2m9GLy1E9W43yeyfP6QQCZGFNa+XRceJEuDB6zqr+gKpIAmlLebMpykw/MQ==}
     engines: {node: '>=10'}
@@ -4776,6 +4851,10 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
+  /path-is-inside/1.0.2:
+    resolution: {integrity: sha1-NlQX3t5EQw0cEa9hAn+s8HS9/FM=}
+    dev: true
+
   /path-key/2.0.1:
     resolution: {integrity: sha1-QRyttXTFoUDTpLGRDUDYDMn0C0A=}
     engines: {node: '>=4'}
@@ -4827,6 +4906,18 @@ packages:
   /pify/4.0.1:
     resolution: {integrity: sha512-uB80kBFb/tfd68bVleG9T5GGsGPjJrLAUpR5PZIrhBnIaRTQRjqdJSsIKkOP6OAIFbj7GOrcudc5pNjZ+geV2g==}
     engines: {node: '>=6'}
+    dev: true
+
+  /pinkie-promise/2.0.1:
+    resolution: {integrity: sha1-ITXW36ejWMBprJsXh3YogihFD/o=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      pinkie: 2.0.4
+    dev: true
+
+  /pinkie/2.0.4:
+    resolution: {integrity: sha1-clVrgM+g1IqXToDnckjoDtT3+HA=}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /pkg-dir/4.2.0:
@@ -5043,7 +5134,6 @@ packages:
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
-    dev: true
 
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
@@ -6217,6 +6307,11 @@ packages:
     dependencies:
       clone-deep: 4.0.1
       wildcard: 2.0.0
+    dev: true
+
+  /webpack-node-externals/3.0.0:
+    resolution: {integrity: sha512-LnL6Z3GGDPht/AigwRh2dvL9PQPFQ8skEpVrWZXLWBYmqcaojHNN0onvHzie6rq7EWKrrBfPYqNEzTJgiwEQDQ==}
+    engines: {node: '>=6'}
     dev: true
 
   /webpack-sources/3.2.3:

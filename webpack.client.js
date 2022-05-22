@@ -1,15 +1,21 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
 const path = require('path');
-
-
 const isProduction = process.env.NODE_ENV == 'production';
 
-
+/**
+ * @type {import('webpack').Configuration}
+ */
 const config = {
-    entry: './client.tsx',
+    entry: './src/client.tsx',
     output: {
+        publicPath: 'auto',
         path: path.resolve(__dirname, 'assets'),
+        filename: 'client.js',
+    },
+    optimization: {
+        sideEffects: false,
+        usedExports: true,
     },
 
     module: {
@@ -20,12 +26,13 @@ const config = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        presets: ["@babel/env", "@babel/react", "@babel/typescript"]
+                        presets: ["@babel/react", "@babel/typescript"]
                     }
                 }
             },
         ],
     },
+
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
     },
@@ -37,5 +44,7 @@ module.exports = () => {
     } else {
         config.mode = 'development';
     }
+    config.mode = 'production';
+
     return config;
 };
