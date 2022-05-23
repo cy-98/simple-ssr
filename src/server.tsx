@@ -13,10 +13,12 @@ server.use(
   )
 )
 
+
+
 server.get('/',  async (req, res) => {
   const app = renderToString(<Page />)
 
-
+  console.log(app);
 
   const tmplt = `
       <!DOCTYPE html>
@@ -30,7 +32,7 @@ server.get('/',  async (req, res) => {
       <body>
       <div id="app">${app}</div>
       </body>
-      <script src="//localhost:3001/main.js"></script>
+      <script src="//localhost:3002/client.js"></script>
 </html>
 `
 

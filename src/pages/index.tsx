@@ -1,11 +1,9 @@
 import React from "react";
 
 export const Page: React.FC = (props) => {
-  let tag = true;
+  const handleClick = () => {
+    console.log("ha  nd  leClick");
+  };
 
-  return (
-    <div>
-      something
-    </div>
-  );
+  return <h1 onClick={handleClick}>cl  ick  saspdijasd ad th  ing</h1>;
 };

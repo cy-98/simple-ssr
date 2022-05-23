@@ -10,10 +10,11 @@ const config = {
     target: 'node',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: "[name].js",
+        filename: "server.js",
         library: 'library',
         publicPath: 'auto',
     },
+    watch: true,
     module: {
         rules: [
             {
@@ -35,12 +36,5 @@ const config = {
 };
 
 module.exports = () => {
-    if (isProduction) {
-        config.mode = 'production';
-    } else {
-        config.mode = 'development';
-    }
-    config.mode = 'production';
-
     return config;
 };
